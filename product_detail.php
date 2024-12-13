@@ -20,7 +20,7 @@ $stmt->bindParam(':id', $product_id, PDO::PARAM_INT);
 $stmt->execute();
 $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Получение комментариев товара
+// Получение комментариев товара с именем пользователя
 $stmt = $conn->prepare("
     SELECT c.*, u.username
     FROM comments c
@@ -33,7 +33,6 @@ $stmt->execute();
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +44,11 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <h1><?php echo htmlspecialchars($product['name']); ?></h1>
 <div class="product-detail">
-    <img src="uploads/<?php echo htmlspecialchars($product['main_image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+    <?php if (!empty($images[0]['path'])): ?>
+        <img src="uploads/<?php echo htmlspecialchars($images[0]['path']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+    <?php else: ?>
+        <img src="uploads/default.jpg" alt="Default Image">
+    <?php endif; ?>
     <p><?php echo htmlspecialchars($product['description']); ?></p>
     <h3>Gallery</h3>
     <div class="product-gallery">
