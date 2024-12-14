@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Подключение к базе данных
 try {
     $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
@@ -48,11 +50,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 <h1>Product List</h1>
+<?php if (!isset($_SESSION['user_id'])): ?>
+    <p>Please <a href="login.php">login</a> to access the full functionality.</p>
+<?php endif; ?>
 <div class="category-navigation">
     <h2>Categories</h2>
     <ul>
         <?php foreach ($categories as $category): ?>
-            <li><a href="product_list.php?category_id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a>
+            <li>
+                <a href="product_list.php?category_id=<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></a>
                 <?php
                 // Получение подкатегорий
                 $stmt = $conn->prepare("SELECT * FROM categories WHERE parent_id = :parent_id");
@@ -87,4 +93,3 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 </body>
 </html>
-

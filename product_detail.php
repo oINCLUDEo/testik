@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Подключение к базе данных
 try {
     $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
@@ -20,9 +22,9 @@ $stmt->bindParam(':id', $product_id, PDO::PARAM_INT);
 $stmt->execute();
 $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Получение комментариев товара с именем пользователя
+// Получение комментариев товара с именем пользователя и иерархией
 $stmt = $conn->prepare("
-    SELECT c.*, u.username
+    SELECT c.*, u.username, c.parent_id AS parent
     FROM comments c
     JOIN users u ON c.user_id = u.id
     WHERE c.product_id = :id
@@ -31,6 +33,19 @@ $stmt = $conn->prepare("
 $stmt->bindParam(':id', $product_id, PDO::PARAM_INT);
 $stmt->execute();
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Функция для рекурсивного отображения комментариев
+function displayComments($comments, $parent_id = null) {
+    foreach ($comments as $comment) {
+        if ($comment['parent'] == $parent_id) {
+            echo '<div class="comment">';
+            echo '<p><strong>' . htmlspecialchars($comment['username']) . '</strong> - ' . htmlspecialchars($comment['created_at']) . '</p>';
+            echo '<p>' . htmlspecialchars($comment['content']) . '</p>';
+            displayComments($comments, $comment['id']);
+            echo '</div>';
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,19 +73,18 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <h3>Comments</h3>
     <div class="comments">
-        <?php foreach ($comments as $comment): ?>
-            <div class="comment">
-                <p><strong><?php echo htmlspecialchars($comment['username']); ?></strong> - <?php echo htmlspecialchars($comment['created_at']); ?></p>
-                <p><?php echo htmlspecialchars($comment['content']); ?></p>
-            </div>
-        <?php endforeach; ?>
+        <?php displayComments($comments); ?>
     </div>
-    <h3>Leave a Comment</h3>
-    <form action="add_comment.php" method="post">
-        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-        <textarea name="content" rows="4" cols="50"></textarea>
-        <button type="submit">Submit</button>
-    </form>
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <h3>Leave a Comment</h3>
+        <form action="add_comment.php" method="post">
+            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+            <textarea name="content" rows="4" cols="50" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    <?php else: ?>
+        <p>Please <a href="login.php">login</a> to leave a comment.</p>
+    <?php endif; ?>
 </div>
 </body>
 </html>
