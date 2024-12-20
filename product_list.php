@@ -49,10 +49,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="user-info">
+    <?php if (isset($_SESSION['username'])): ?>
+        <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+        <a href="logout.php">Logout</a>
+    <?php else: ?>
+        <p>Please <a href="login.php">login</a> to access the full functionality.</p>
+    <?php endif; ?>
+</div>
 <h1>Product List</h1>
-<?php if (!isset($_SESSION['user_id'])): ?>
-    <p>Please <a href="login.php">login</a> to access the full functionality.</p>
-<?php endif; ?>
 <div class="category-navigation">
     <h2>Categories</h2>
     <ul>

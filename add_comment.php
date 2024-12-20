@@ -8,10 +8,11 @@ if (!isset($_SESSION['user_id'])) {
 
 // Подключение к базе данных
 try {
-    $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
+    $conn = new PDO('pgsql:host=localhost;dbname=your_database', 'username', 'password');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,3 +31,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: product_detail.php?id=$product_id");
     exit();
 }
+?>
