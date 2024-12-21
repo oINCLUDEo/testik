@@ -12,12 +12,12 @@ if (!isset($_SESSION['admin_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Панель администратора</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <h1>Admin Panel</h1>
-<a href="add_product.php">Add New Product</a>
-<a href="admin_logout.php">Logout</a>
+<a href="add_product.php">Добавить товар</a>
+<a href="admin_logout.php">Выйти из аккаунта</a>
 </body>
 </html>

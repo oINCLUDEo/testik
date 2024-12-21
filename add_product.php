@@ -9,7 +9,7 @@ if (!isset($_SESSION['admin_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Подключение к базе данных
     try {
-        $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
+        $conn = new PDO('pgsql:host=dpg-ctimca0gph6c7389h7bg-a.frankfurt-postgres.render.com;dbname=prokof', 'postgre', 'DN7tYjKxaxvDFdlv4csVNnH84WCKbcu2');
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         echo 'Connection failed: ' . $e->getMessage();
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($file_size > 2097152) {
-                $errors[] = 'File size must be less than 2 MB';
+                $errors[] = 'Размер файла больше чем 2 MB';
             }
 
             if (empty($errors) == true) {
@@ -67,21 +67,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Добавить товар</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Add New Product</h1>
+<h1>Добавить новый товарр</h1>
 <form action="add_product.php" method="post" enctype="multipart/form-data">
-    <label for="name">Product Name:</label>
+    <label for="name">Название товара:</label>
     <input type="text" id="name" name="name" required>
-    <label for="description">Description:</label>
+    <label for="description">Описание:</label>
     <textarea id="description" name="description" rows="4" cols="50" required></textarea>
-    <label for="category_id">Category ID:</label>
+    <label for="category_id">Категория ID:</label>
     <input type="number" id="category_id" name="category_id" required>
-    <label for="images">Images:</label>
+    <label for="images">Изображения:</label>
     <input type="file" id="images" name="images[]" multiple required>
-    <button type="submit">Add Product</button>
+    <button type="submit">Добавить</button>
 </form>
 </body>
 </html>

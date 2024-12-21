@@ -3,7 +3,7 @@ session_start();
 
 // Подключение к базе данных
 try {
-    $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
+    $conn = new PDO('pgsql:host=dpg-ctimca0gph6c7389h7bg-a.frankfurt-postgres.render.com;dbname=prokof', 'postgre', 'DN7tYjKxaxvDFdlv4csVNnH84WCKbcu2');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
@@ -45,21 +45,21 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
+    <title>Продукция</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="user-info">
     <?php if (isset($_SESSION['username'])): ?>
-        <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-        <a href="logout.php">Logout</a>
+        <p>Добро пожаловать, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+        <a href="logout.php">Выйти из аккаунта</a>
     <?php else: ?>
-        <p>Please <a href="login.php">login</a> to access the full functionality.</p>
+        <p>Пожалуйста <a href="login.php">войдите в аккаунт</a> для доступа к полному функционалу.</p>
     <?php endif; ?>
 </div>
-<h1>Product List</h1>
+<h1>Список товаров</h1>
 <div class="category-navigation">
-    <h2>Categories</h2>
+    <h2>Категории</h2>
     <ul>
         <?php foreach ($categories as $category): ?>
             <li>
@@ -92,7 +92,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <img src="uploads/default.jpg" alt="Default Image">
             <?php endif; ?>
             <p><?php echo htmlspecialchars(substr($product['description'], 0, 100)); ?>...</p>
-            <a href="product_detail.php?id=<?php echo $product['id']; ?>">View Details</a>
+            <a href="product_detail.php?id=<?php echo $product['id']; ?>">Узнать детальнее</a>
         </div>
     <?php endforeach; ?>
 </div>

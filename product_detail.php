@@ -3,7 +3,7 @@ session_start();
 
 // Подключение к базе данных
 try {
-    $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
+    $conn = new PDO('pgsql:host=dpg-ctimca0gph6c7389h7bg-a.frankfurt-postgres.render.com;dbname=prokof', 'postgre', 'DN7tYjKxaxvDFdlv4csVNnH84WCKbcu2');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
@@ -87,14 +87,14 @@ $conn = null;
 <body>
 <div class="user-info">
     <?php if (isset($_SESSION['username'])): ?>
-        <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-        <a href="logout.php">Logout</a>
+        <p>Добро пожаловать, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+        <a href="logout.php">Выйти из аккаунта</a>
     <?php else: ?>
-        <p>Please <a href="login.php">login</a> to access the full functionality.</p>
+        <p>Пожалуйста <a href="login.php">войдите в аккаунт</a> для доступа к полному функционалу.</p>
     <?php endif; ?>
 </div>
 <div class="return-link">
-    <a href="product_list.php">Return to Home</a>
+    <a href="product_list.php">Вернуться на главную</a>
 </div>
 <h1><?php echo htmlspecialchars($product['name']); ?></h1>
 <div class="product-detail">
@@ -104,25 +104,25 @@ $conn = null;
         <img src="uploads/default.jpg" alt="Default Image">
     <?php endif; ?>
     <p><?php echo htmlspecialchars($product['description']); ?></p>
-    <h3>Gallery</h3>
+    <h3>Фотографии</h3>
     <div class="product-gallery">
         <?php foreach ($images as $image): ?>
             <img src="uploads/<?php echo htmlspecialchars($image['path']); ?>" alt="Gallery Image">
         <?php endforeach; ?>
     </div>
-    <h3>Comments</h3>
+    <h3>Комментарии</h3>
     <div class="comments">
         <?php displayComments($comments, $product); ?>
     </div>
     <?php if (isset($_SESSION['user_id'])): ?>
-        <h3>Leave a Comment</h3>
+        <h3>Оставить комментарий</h3>
         <form action="add_comment.php" method="post">
             <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['id']); ?>">
             <textarea name="content" rows="4" cols="50" required></textarea>
-            <button type="submit">Submit</button>
+            <button type="submit">Отправить</button>
         </form>
     <?php else: ?>
-        <p>Please <a href="login.php">login</a> to leave a comment.</p>
+        <p>Please <a href="login.php">Войдите в аккаунт</a>, чтобы оставлять комментарии.</p>
     <?php endif; ?>
 </div>
 </body>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Подключение к базе данных
 try {
-    $conn = new PDO('pgsql:host=localhost;dbname=your_database', 'username', 'password');
+    $conn = new PDO('pgsql:host=dpg-ctimca0gph6c7389h7bg-a.frankfurt-postgres.render.com;dbname=prokof', 'postgre', 'DN7tYjKxaxvDFdlv4csVNnH84WCKbcu2');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();

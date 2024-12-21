@@ -4,7 +4,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Подключение к базе данных
     try {
-        $conn = new PDO('pgsql:host=localhost;dbname=prokof', 'postgres', '1');
+        $conn = new PDO('pgsql:host=dpg-ctimca0gph6c7389h7bg-a.frankfurt-postgres.render.com;dbname=prokof', 'postgre', 'DN7tYjKxaxvDFdlv4csVNnH84WCKbcu2');
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         echo 'Connection failed: ' . $e->getMessage();
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: product_list.php');
         exit();
     } else {
-        $error = "Invalid username or password";
+        $error = "Неправильное имя пользователя или пароль";
     }
 }
 ?>
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Вход в аккаунт</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -45,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p style="color: red;"><?php echo $error; ?></p>
 <?php endif; ?>
 <form action="login.php" method="post">
-    <label for="username">Username:</label>
+    <label for="username">Имя пользователя:</label>
     <input type="text" id="username" name="username" required>
-    <label for="password">Password:</label>
+    <label for="password">Пароль:</label>
     <input type="password" id="password" name="password" required>
-    <button type="submit">Login</button>
+    <button type="submit">Войти</button>
 </form>
 </body>
 </html>
